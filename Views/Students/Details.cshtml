@@ -4,28 +4,37 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
 @if (ViewBag.msg != null)
 {
     <div class="alert alert-success">@ViewBag.msg</div>
 }
 
-@using (Html.BeginForm())
-{
-    <div class="input-group col-md-3">
-        <input type="text" name="useremail" class="form-control" />
-        <div class="btn btn-success">
-            <button class="btn btn-success" type="submit">
-                <i class="glyphicon glyphicon-send"></i>
-            </button>
-        </div>
-    </div>
-}
+<h2>Student Details</h2>
 
-@*@Html.Partial("SendEmail")*@
+
+
+
+@*@using (Html.BeginForm())
+    {
+        <div class="input-group col-md-3">
+            <input type="text" name="useremail" class="form-control" />
+            <div class="btn btn-success">
+                <button class="btn btn-success" type="submit">
+                    <i class="glyphicon glyphicon-send"></i>
+                </button>
+            </div>
+        </div>
+    }*@
 
 <div>
-    <h4>Student</h4>
+    <h4>Enter your email below for a copy of this student's details</h4>
+    @using (Html.BeginForm())
+    {
+        @Html.TextBox("useremail")
+        <input type="submit" name="useremail" value="Send Email">
+    }
+
+
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -94,6 +103,8 @@
 
     </dl>
 </div>
+
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")

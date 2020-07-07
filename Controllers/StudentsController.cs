@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -18,13 +19,31 @@ namespace DUT4UStudentApp.Controllers
         // GET: Students
         public ActionResult Index(string search)
         {
+            //Search for students by name
+            //Display if isActive = true
             return View(db.Students.Where(x => x.FirstName.StartsWith(search) && x.IsActive == true
                                             || x.LastName.StartsWith(search) && x.IsActive == true
                                             || search == null).ToList());
-            //return View(db.Students.ToList());
         }
 
-        //BACKUP
+
+        //Render razor view as string to send as html
+        public string RenderRazorViewToString(string viewName, Student student)
+        {
+            ViewData.Model = student;
+            using (var stringWriter = new StringWriter())
+            {
+                var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext, viewName);
+                var viewContext = new ViewContext(ControllerContext, viewResult.View, ViewData, TempData, stringWriter);
+
+                viewResult.View.Render(viewContext, stringWriter);
+                viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
+
+                return stringWriter.GetStringBuilder().ToString();
+            }
+        }
+
+        //GET: Students/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -39,53 +58,21 @@ namespace DUT4UStudentApp.Controllers
             return View(student);
         }
 
+        //Send email of student details
         [HttpPost]
-        public ActionResult Details(string useremail)
+        public ActionResult Details(string useremail, int id)
         {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            //Student student = db.Students.Find(id);
-            //if (student == null)
-            //{
-            //    return HttpNotFound();
-            //}
+            Student student = db.Students.Find(id);
 
             string subject = "Student Details";
-            string body = " ";
+            string body = RenderRazorViewToString("Details", student);
+
+
             WebMail.Send(useremail, subject, body, null, null, null, true, null, null, null, null, null, null);
             ViewBag.msg = "Email sent successfully!";
 
-            return View();
-        }
-
-        //GET: Students/Details/5
-        public ActionResult SendEmail()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult SendEmail(string useremail)
-        {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            //Student student = db.Students.Find(id);
-            //if (student == null)
-            //{
-            //    return HttpNotFound();
-            //}
-
-            string subject = "This is the subject";
-            string body = "just testing";
-            WebMail.Send(useremail, subject, body, null, null, null, true, null, null, null, null, null, null);
-            ViewBag.msg = "Email sent successfully!";
-
-            return View();
-        }
+            return View(student);
+        }     
 
         // GET: Students/Create
         public ActionResult Create()
@@ -94,14 +81,14 @@ namespace DUT4UStudentApp.Controllers
         }
 
         // POST: Students/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,StudentNo,FirstName,LastName,Email,HomeAddress,Mobile,IsActive,ImageURL")] Student student, HttpPostedFileBase UploadImage)
         {
             if (ModelState.IsValid)
             {
+                //Upload image and return URL
                 if (UploadImage != null)
                 {
                     if (UploadImage.ContentType == "image/jpg" || UploadImage.ContentType == "image/png"
@@ -140,8 +127,6 @@ namespace DUT4UStudentApp.Controllers
         }
 
         // POST: Students/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,StudentNo,FirstName,LastName,Email,HomeAddress,Mobile,IsActive,ImageURL")] Student student, HttpPostedFileBase UploadImage)

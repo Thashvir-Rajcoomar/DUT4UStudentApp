@@ -4,16 +4,19 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Students</h2>
+<h4>Search for a student below</h4>
+<p></p>
 @using (Html.BeginForm("Index", "Students", FormMethod.Get))
 {
     @Html.TextBox("search")
     <input type="submit" value="Search">
+    <button>@Html.ActionLink("Clear Results", "Index")</button>
 }
 
 <p>
-    @Html.ActionLink("Clear Search", "Index")
-    <br />
+
+
     <br />
     @Html.ActionLink("Add a Student", "Create")
 </p>
@@ -72,7 +75,6 @@
                 @Html.DisplayFor(modelItem => item.IsActive)
             </td>
             <td>
-                @*@Html.DisplayFor(modelItem => item.ImageURL)*@
                 <a href="~/Content/@item.ImageURL">@Html.DisplayFor(modelItem => item.ImageURL)</a>
             </td>
             <td>
