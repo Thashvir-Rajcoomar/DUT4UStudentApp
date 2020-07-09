@@ -15,14 +15,15 @@ namespace DUT4UStudentApp.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "More about the app.";
 
             return View();
         }
 
+        
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Group 03 : DUT4U";
 
             return View();
         }

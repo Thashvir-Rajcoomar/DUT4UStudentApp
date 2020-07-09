@@ -3,29 +3,29 @@
 }
 
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <h1>Capstone Project</h1>
+    <p class="lead">This web application was built to store students' information. Please note that you are required to log in to gain access to student information.</p>
+    @*<p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>*@
 </div>
 
 <div class="row">
     <div class="col-md-4">
-        <h2>Getting started</h2>
+        <h2>View Students</h2>
         <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
+            Are you already registered as an admin? Click the button below to log in and view all the students on our database.
         </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        <p><button class="btn btn-submit">@Html.ActionLink("View Students", "Index","Students")</button></p>
     </div>
     <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+        <h2>Register Now</h2>
+        <p>
+            Don't have an account with us yet? Hit "Register Now" to create a free account with us. You will be able to view our database once your account registration is approved.
+        </p>
+        <p><button class="btn btn-submit">@Html.ActionLink("Register Now", "Register", "Account")</button></p>
     </div>
     <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        <h2>Developers Info</h2>
+        <p>Interested in getting to know more about the team behind this capstone project? Click below for more details on our team members.</p>
+        <p><button class="btn btn-submit">@Html.ActionLink("Contact Us", "Contact", "Home")</button></p>
     </div>
 </div>

@@ -17,6 +17,8 @@ namespace DUT4UStudentApp.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Students
+
+        [Authorize(Roles = "Admin")]
         public ActionResult Index(string search)
         {
             //Search for students by name
@@ -44,6 +46,7 @@ namespace DUT4UStudentApp.Controllers
         }
 
         //GET: Students/Details/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -72,9 +75,10 @@ namespace DUT4UStudentApp.Controllers
             ViewBag.msg = "Email sent successfully!";
 
             return View(student);
-        }     
+        }
 
         // GET: Students/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();

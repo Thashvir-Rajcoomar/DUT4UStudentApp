@@ -23,7 +23,7 @@ namespace DUT4UStudentApp
                       "~/Scripts/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/bootrap-slate.css",
                       "~/Content/site.css"));
         }
     }
